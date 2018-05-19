@@ -1,0 +1,21 @@
+# NPM, Gulp and Grunt stuff
+node_modules
+bower_components
+npm-debug.log
+.sass-cache
+
+# File-system cruft and temporary files
+*.gz
+*.sublime-*
+*.zip
+.*.swp
+._*
+.buildpath
+.DS_Store
+.idea/
+.project
+.swp
+.Trashes
+.vagrant*
+/bolt.log
+/tags
