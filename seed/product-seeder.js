@@ -7,9 +7,9 @@ mongoose.connect('mongodb://localhost:27017/shopping');
 
 var products = [
     new Product({
-        imagePath: 'https://upload.wikimedia.org/wikipedia/en/5/5e/Gothiccover.png',
-        title: 'Thumbnail label',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+        imagePath: 'https://78.media.tumblr.com/e10bcc29a0da33515186bce56cacaa84/tumblr_nki4exdohb1raso8wo2_400.png',
+        title: 'Do shopping',
+        description: 'Buy milk, orange juice, carrots.',
         price: 10
     }),
     new Product({
@@ -46,4 +46,3 @@ for (var i = 0; i < products.length; i++) {
 function exit() {
     mongoose.disconnect();
 }
-
