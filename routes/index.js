@@ -9,7 +9,8 @@ var mongoose = require('mongoose');
 // var Product = require('../models/product');
 
 var todoSchema = new mongoose.Schema({
-    name: String
+    name: String,
+    status: { type: Boolean, default: false }
 });
 
 var Todo = mongoose.model("Todo", todoSchema);
@@ -42,7 +43,8 @@ router.post("/newtodo", function (req, res) {
     console.log("item submitted");
     var newItem = new Todo(
         {
-            name: req.body.item
+            name: req.body.item,
+            status: false
         });
     Todo.create(newItem, function(err, Todo){
         if(err) console.log(err);
@@ -50,6 +52,19 @@ router.post("/newtodo", function (req, res) {
             console.log("Inserted item");
     });
     res.redirect("/");
+});
+
+router.get('/delete/:id', function(req, res){
+    Todo.remove({_id: req.params.id}, function(err){
+        res.redirect('/');
+    });
+});
+
+router.post('/update', function(req, res){
+    Todo.where({_id: req.body.id}).update({status: req.body.status}, function(err, doc){
+        if(err) res.json(err);
+        else    res.send(200);
+    });
 });
 
 // router.get('/user/signup', function(req, res, next){
