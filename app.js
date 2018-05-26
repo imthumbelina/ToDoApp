@@ -6,12 +6,14 @@ var logger = require('morgan');
 var expressHbs = require('express-handlebars');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var session = require('express-session')
+var session = require('express-session');
+var Tokens = require('csrf');
 
 var indexRouter = require('./routes/index');
 
 var app = express();
-mongoose.connect('mongodb://localhost:27017/shopping');
+mongoose.connect('mongodb://localhost/todo');
+
 
 // view engine setup
 app.engine('.hbs', expressHbs({defaultLayout: 'layout', extname: '.hbs'}));
@@ -21,7 +23,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({extended: false}));
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(session({secret: 'mysupersecret', resave: false, saveUninitialized: false}));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -43,5 +45,7 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
+
+
 
 module.exports = app;
