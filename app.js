@@ -15,7 +15,7 @@ var validator = require('express-validator')
 var indexRouter = require('./routes/index');
 
 var app = express();
-mongoose.connect('mongodb://admin:admin@ds235169.mlab.com:35169/todos');
+mongoose.connect('mongodb://localhost/todo');
 require('./config/passport');
 
 // view engine setup
