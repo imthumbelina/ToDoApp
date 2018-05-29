@@ -1,0 +1,26 @@
+<h2>hello<h2>
+<div class="container">
+<row>
+    <h1 class="text-center">Enter todo Item</h1>
+    <form class="col-6 mx-auto" action="/newtodo" method="POST">
+      <div class="input-group">
+        <input type="text" class="form-control" name="item" placeholder="Enter todo Item"><span>  <button type="submit" class="btn btn-primary">Submit</button>
+        </span>
+    </div>
+    </form>
+</row>
+
+{{# each todoList}}
+<h2>hello<h2>
+    <div class="row">
+
+        <div class="col-sm-6 col-md-4">
+
+            <div class="thumbnail">
+
+                <div class="caption">
+                    <h3>{{this}}</h3>
+                </div>
+            </div>
+        </div>
+{{/each}}

@@ -12,7 +12,7 @@ var Tokens = require('csrf');
 var indexRouter = require('./routes/index');
 
 var app = express();
-mongoose.connect('mongodb://localhost/todo');
+mongoose.connect('mongodb://admin:admin@ds235169.mlab.com:35169/todos');
 
 
 // view engine setup
