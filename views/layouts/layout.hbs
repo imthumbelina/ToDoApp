@@ -38,7 +38,7 @@
                 $(this).parent().parent().removeClass('task-done');
                 status = false;
             }
-            $.post("/update", {id: $(this).val(), status: status}, function (data) {
+            $.post("user/lists/update", {id: $(this).val(), status: status}, function (data) {
                 console.log(data);
                 return true;
             });

@@ -10,7 +10,7 @@ var passport = require('passport');
 
 var todoSchema = new mongoose.Schema({
     name: String,
-    status: { type: Boolean, default: false }
+    status: {type: Boolean, default: false}
 });
 
 var Todo = mongoose.model("Todo", todoSchema);
@@ -32,65 +32,65 @@ var Todo = mongoose.model("Todo", todoSchema);
 // });
 
 router.get("/", function (req, res, next) {
-    Todo.find({}, function (err, todoList) {
-        if (err) console.log(err);
-        else
-            res.render('todo/home', {todoList: todoList});
-    });
+    res.render('todo/home');
 });
 
-router.post("/newtodo", function (req, res) {
+router.post("/user/lists/newtodo", function (req, res) {
     console.log("item submitted");
     var newItem = new Todo(
         {
             name: req.body.item,
             status: false
         });
-    Todo.create(newItem, function(err, Todo){
-        if(err) console.log(err);
+    Todo.create(newItem, function (err, Todo) {
+        if (err) console.log(err);
         else
             console.log("Inserted item");
     });
-    res.redirect("/");
+    res.redirect("/user/lists");
 });
 
-router.get('/delete/:id', function(req, res){
-    Todo.remove({_id: req.params.id}, function(err){
-        res.redirect('/');
+router.get('/user/lists/delete/:id', function (req, res) {
+    Todo.remove({_id: req.params.id}, function (err) {
+        res.redirect('/user/lists');
     });
 });
 
-router.post('/update', function(req, res){
-    Todo.where({_id: req.body.id}).update({status: req.body.status}, function(err, doc){
-        if(err) res.json(err);
-        else    res.send(200);
+router.post('/user/lists/update', function (req, res) {
+    Todo.where({_id: req.body.id}).update({status: req.body.status}, function (err, doc) {
+        if (err) res.json(err);
+        else res.send(200);
     });
 });
 
- router.get('/user/signup', function(req, res, next){
-   var messages = req.flash('error');
-   res.render('user/signup', {messages: messages, hasErrors: messages.length > 0});
- });
+router.get('/user/signup', function (req, res, next) {
+    var messages = req.flash('error');
+    res.render('user/signup', {messages: messages, hasErrors: messages.length > 0});
+});
 
-router.post('/user/signup', passport.authenticate('local.signup',{
-  successRedirect: '/user/profile',
-  failureRedirect: '/user/signup',
-  failureFlash: true
+router.post('/user/signup', passport.authenticate('local.signup', {
+    successRedirect: '/user/lists',
+    failureRedirect: '/user/signup',
+    failureFlash: true
 }));
 
-router.get('/user/profile', function(req, res, next){
-  res.render('user/profile')
+router.get('/user/lists', function (req, res, next) {
+    Todo.find({}, function (err, todoList) {
+        if (err) console.log(err);
+        else
+            res.render('user/lists', {todoList: todoList});
+    });
 });
 
-router.get('/user/signin', function(req, res, next){
-  var messages = req.flash('error');
-  res.render('user/signin', {messages: messages, hasErrors: messages.length > 0});
+router.get('/user/signin', function (req, res, next) {
+    var messages = req.flash('error');
+    res.render('user/signin', {messages: messages, hasErrors: messages.length > 0});
 });
 
-router.post('/user/signin', passport.authenticate('local.signin',{
-  successRedirect: '/user/profile',
-  failureRedirect: '/user/signin',
-  failureFlash: true
+router.post('/user/signin', passport.authenticate('local.signin', {
+    successRedirect: '/user/lists',
+    failureRedirect: '/user/signin',
+    failureFlash: true
 }));
 
 
