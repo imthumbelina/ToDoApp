@@ -27,7 +27,7 @@ var Todo = mongoose.model("Todo", todoSchema);
 //         for (var i = 0; i < docs.length; i += chunkSize) {
 //             productChunks.push(docs.slice(i, i + chunkSize));
 //         }
-//         res.render('shop/index', {title: 'Shopping Cart', products: productChunks});
+//         res.render('todo/index', {title: 'Shopping Cart', products: productChunks});
 //     });
 // });
 
@@ -35,7 +35,7 @@ router.get("/", function (req, res, next) {
     Todo.find({}, function (err, todoList) {
         if (err) console.log(err);
         else
-            res.render('shop/index', {todoList: todoList});
+            res.render('todo/home', {todoList: todoList});
     });
 });
 

@@ -1,3 +1,31 @@
-.thumbnail img {
-  max-height: 150px;
+body {
+    background-image: url("../../images/bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 80vh;
+    display: flex;
+    align-items: flex-end;
+}
+
+.link-button {
+    background-color: #f1c294;
+    display: block;
+    text-align: center;
+    box-sizing: border-box;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    width: 100%;
+    color: white;
+    line-height: 45px;
+    border-radius: 25px;
+    text-transform: uppercase;
+    border: 1px solid #f1c294;
+}
+
+.link-button:hover {
+    text-decoration: none;
+    color: #f1c294;
+    border: 1px solid #f1c294;
+    background-color: white;
 }
