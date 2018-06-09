@@ -10,7 +10,10 @@ var session = require('express-session');
 var Tokens = require('csrf');
 var passport = require('passport');
 var flash = require('connect-flash');
-var validator = require('express-validator')
+var validator = require('express-validator');
+var $ = require('jquery');
+var jsdom = require('jsdom');
+
 
 var indexRouter = require('./routes/index');
 

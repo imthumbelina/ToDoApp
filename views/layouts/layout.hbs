@@ -11,9 +11,9 @@
 </head>
 <body>
 
-<div class="container">
-    {{{body}}}
-</div>
+
+{{{body}}}
+
 <!--<script type="text/javascript" src="/node_modules/jquery/dist/jquery.js"></script>-->
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -29,6 +29,13 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
+
+        var url= window.location.href;
+        console.log(url);
+        if(url.includes('lists')){
+            $('body').addClass('flex');
+        }
+
         $('.task-list-check').click(function () {
             var status = true;
 

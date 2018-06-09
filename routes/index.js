@@ -1,35 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-
-// var csrf = require('csurf');
-// var todoList = ["Item1", "Item2"];
 var passport = require('passport');
 
-// var Product = require('../models/product');
-
-var todoSchema = new mongoose.Schema({
-    name: String,
-    status: {type: Boolean, default: false}
-});
-
-var Todo = mongoose.model("Todo", todoSchema);
-
-
-// var csrfProtection = csrf();
-// router.use(csrfProtection);
-
-/* GET home page. */
-// router.get('/', function (req, res, next) {
-//     Product.find(function (err, docs) {
-//         var productChunks = [];
-//         var chunkSize = 3;
-//         for (var i = 0; i < docs.length; i += chunkSize) {
-//             productChunks.push(docs.slice(i, i + chunkSize));
-//         }
-//         res.render('todo/index', {title: 'Shopping Cart', products: productChunks});
-//     });
-// });
+var Todo = require('../models/todo');
+var TodoList = require('../models/todolist');
 
 router.get("/", function (req, res, next) {
     res.render('todo/home');
@@ -49,6 +24,22 @@ router.post("/user/lists/newtodo", function (req, res) {
     });
     res.redirect("/user/lists");
 });
+
+
+router.post("/user/lists/newtodolist", function (req, res) {
+    console.log("item submitted");
+    var newTodoList = new TodoList(
+        {
+            name: req.body.item
+        });
+    TodoList.create(newTodoList, function (err, TodoList) {
+        if (err) console.log(err);
+        else
+            console.log("Inserted item");
+    });
+    res.redirect("/user/lists");
+});
+
 
 router.get('/user/lists/delete/:id', function (req, res) {
     Todo.remove({_id: req.params.id}, function (err) {
@@ -75,10 +66,10 @@ router.post('/user/signup', passport.authenticate('local.signup', {
 }));
 
 router.get('/user/lists', function (req, res, next) {
-    Todo.find({}, function (err, todoList) {
+    TodoList.find({}, function (err, todoListSchema) {
         if (err) console.log(err);
         else
-            res.render('user/lists', {todoList: todoList});
+            res.render('user/lists', {todoListSchema: todoListSchema});
     });
 });
 

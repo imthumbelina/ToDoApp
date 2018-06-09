@@ -9,6 +9,32 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
+body.flex {
+    display: inherit;
+    height: inherit;
+}
+
+nav {
+    height: 80px;
+    background-color: transparent !important;
+}
+
+.new-list-input {
+    border-radius: 20px;
+    border: none;
+}
+
+.new-todo-input {
+    text-align: center;
+    padding: 10px 0;
+    font-size: 12px;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid;
+    border-radius: 0;
+    color: #f1c294;
+}
+
 .link-button, .btn-primary {
     background-color: #f1c294;
     display: block;
@@ -44,4 +70,39 @@ input.form-control {
 
 h1.sign {
     margin-bottom: 20px;
+}
+
+.todo-list-container {
+    height: 600px;
+    background-color: white;
+    border-left: 1px solid #f1c294;
+    margin-top: 20px;
+}
+
+.todo-list-container:first-of-type {
+    border-left: none;
+}
+
+.todo-list-container h5 {
+    text-align: center;
+    margin: 0;
+    padding: 10px;
+    background-color: #f1c294;
+    opacity: 0.5;
+    text-transform: uppercase;
+    color: #00165d;
+}
+
+a.navbar-brand {
+    font-size: 28px;
+    color: #00165d;
+}
+
+a.plus-button {
+    display: block;
+    width: 100%;
+    font-size: 30px;
+    text-decoration: none;
+    color: #00165d;
+    text-align: center;
 }
