@@ -23,10 +23,11 @@ router.post("/user/lists/newtodo", function (req, res) {
             console.log("Inserted item");
     });
 
+      var listName = req.body.label;
       var newVal = { $set: {newtodo: newItem } };
 
 
-      var query = {'name':'B'};
+      var query = {'name':listName};
       var todolist = {$push: {todoList:newItem}};
 
 
