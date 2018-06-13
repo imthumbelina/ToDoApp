@@ -17,12 +17,27 @@ router.post("/user/lists/newtodo", function (req, res) {
             name: req.body.item,
             status: false
         });
-    Todo.create(newItem, function (err, Todo) {
+  var myTodo = Todo.create(newItem, function (err, Todo) {
         if (err) console.log(err);
         else
             console.log("Inserted item");
     });
+
+      var newVal = { $set: {newtodo: newItem } };
+
+
+      var query = {'name':'B'};
+      var todolist = {$push: {todoList:newItem}};
+
+
+      TodoList.findOneAndUpdate(query, todolist, {upsert:true}, function(err, doc){
+        if (err) return res.send(500, { error: err });
+        console.log('it worked');
+      });
+
     res.redirect("/user/lists");
+
+
 });
 
 

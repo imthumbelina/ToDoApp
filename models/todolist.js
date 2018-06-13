@@ -6,8 +6,7 @@ var todoListSchema = new Schema({
     todoList: [{
         name: String,
         status: {type: Boolean, default: false}
-
-    }]
+    }],
 });
 
 
