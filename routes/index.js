@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
-var mongoose = require('mongoose');
 var passport = require('passport');
+var mongodb = require('mongodb');
 
 var Todo = require('../models/todo');
 var TodoList = require('../models/todolist');
 
-router.get("/", function (req, res, next) {
+router.get("/", function (req, res) {
     res.render('todo/home');
 });
 
@@ -17,20 +17,19 @@ router.post("/user/lists/newtodo", function (req, res) {
             name: req.body.item,
             status: false
         });
-  var myTodo = Todo.create(newItem, function (err, Todo) {
+  Todo.create(newItem, function (err) {
         if (err) console.log(err);
         else
             console.log("Inserted item");
     });
       var listName = req.body.label;
-      var newVal = { $set: {newtodo: newItem } };
 
       console.log('inserted into', listName);
       var query = {'name':listName};
       var todolist = {$push: {todoList:newItem}};
 
 
-      TodoList.findOneAndUpdate(query, todolist, {upsert:true}, function(err, doc){
+      TodoList.findOneAndUpdate(query, todolist, {upsert:true}, function(err){
         if (err) return res.send(500, { error: err });
         console.log('it worked');
       });
@@ -47,7 +46,7 @@ router.post("/user/lists/newtodolist", function (req, res) {
         {
             name: req.body.item
         });
-    TodoList.create(newTodoList, function (err, TodoList) {
+    TodoList.create(newTodoList, function (err) {
         if (err) console.log(err);
         else
             console.log("Inserted item");
@@ -57,25 +56,41 @@ router.post("/user/lists/newtodolist", function (req, res) {
 
 
 router.get('/user/lists/delete/:id', function (req, res) {
-    Todo.remove({_id: req.params.id}, function (err) {
+    Todo.remove({_id: req.params.id}, function () {
         res.redirect('/user/lists');
     });
 });
 
-router.get('/user/lists/newtodo/delete/:id', function (req, res) {
-    TodoList.remove({_id: req.params.id}, function (err) {
-        res.redirect('/user/lists');
+router.get('/user/lists/todo/delete/:todoListId/:id', function (req, res) {
+    console.log("dadasd");
+    Todo.deleteOne({_id: new mongodb.ObjectID(req.params.id)}, function () {
+        console.log(req.params.id);
+        console.log(req.params.todoListId);
+        // res.redirect('/user/lists');
+
     });
+    TodoList.update(
+        {_id: new mongodb.ObjectID(req.params.todoListId)},
+        {$pull: {"todoList": {_id: new mongodb.ObjectID(req.params.id)}}},
+        function () {
+            console.log(req.params.todoListId);
+            console.log(req.params.id);
+            console.log("ddddddddddd");
+            res.redirect('/user/lists');
+        });
+    // TodoList.where({_id: new mongodb.ObjectID(req.params.todoListId)}).remove();
+    //db.todolists.update({"_id": ObjectId("5b22c3d7c1841d22fb7fdaf0")}, {$pull: {"todoList":{"name":"maso"}}})
+
 });
 
 router.post('/user/lists/update', function (req, res) {
-    Todo.where({_id: req.body.id}).update({status: req.body.status}, function (err, doc) {
+    Todo.where({_id: req.body.id}).update({status: req.body.status}, function (err) {
         if (err) res.json(err);
         else res.send(200);
     });
 });
 
-router.get('/user/signup', function (req, res, next) {
+router.get('/user/signup', function (req) {
     var messages = req.flash('error');
     res.render('user/signup', {messages: messages, hasErrors: messages.length > 0});
 });
@@ -86,7 +101,7 @@ router.post('/user/signup', passport.authenticate('local.signup', {
     failureFlash: true
 }));
 
-router.get('/user/lists', function (req, res, next) {
+router.get('/user/lists', function (req, res) {
     TodoList.find({}, function (err, todoListSchema) {
         if (err) console.log(err);
         else
@@ -94,7 +109,7 @@ router.get('/user/lists', function (req, res, next) {
     });
 });
 
-router.get('/user/signin', function (req, res, next) {
+router.get('/user/signin', function (req, res) {
     var messages = req.flash('error');
     res.render('user/signin', {messages: messages, hasErrors: messages.length > 0});
 });

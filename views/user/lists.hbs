@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-expand-lg ">
     <a class="navbar-brand" href="#">PANEL</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -25,7 +26,7 @@
 
 <div class="container">
     <div class="row">
-        {{# each todoListSchema}}
+        {{# each todoListSchema as |tdls id|}}
             <div class="col-md-4">
                 <div class=" todo-list-container">
                     <h5>
@@ -38,6 +39,7 @@
                                    placeholder="Dodaj nowe zadanie">
                             <input type="hidden" id="hiddenId" name="label" value="{{this.name}}">
                         </div>
+                    </form>
                         <ul class="todos-list">
                             {{# each todoList}}
                                 <li>
@@ -55,7 +57,7 @@
                                         </div>
 
                                         <div class="pull-right hidden-phone">
-                                            <a href="/user/lists/todo/delete/{{ this._id}}">
+                                            <a href="/user/lists/todo/delete/{{tdls._id}}/{{ this._id}}">
                                                 <button class="btn btn-danger btn-xs">x</button>
                                             </a>
                                         </div>
@@ -64,7 +66,6 @@
                                 </li>
                             {{/each}}
                         </ul>
-                    </form>
                     <ul></ul>
                 </div>
             </div>
