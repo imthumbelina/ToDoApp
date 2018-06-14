@@ -29,6 +29,9 @@
         {{# each todoListSchema as |tdls id|}}
             <div class="col-md-4">
                 <div class=" todo-list-container">
+                    <a href="/user/lists/todolist/delete/{{tdls._id}}">
+                        <button class="btn btn-danger btn-xs">x</button>
+                    </a>
                     <h5>
                         {{this.name}}
                     </h5>

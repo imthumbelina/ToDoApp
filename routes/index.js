@@ -61,6 +61,17 @@ router.get('/user/lists/delete/:id', function (req, res) {
     });
 });
 
+
+
+router.get('/user/lists/todolist/delete/:id', function (req, res) {
+    TodoList.deleteOne({_id: new mongodb.ObjectID(req.params.id)}, function () {
+        res.redirect('/user/lists');
+    });
+});
+
+
+
+
 router.get('/user/lists/todo/delete/:todoListId/:id', function (req, res) {
     console.log("dadasd");
     Todo.deleteOne({_id: new mongodb.ObjectID(req.params.id)}, function () {
