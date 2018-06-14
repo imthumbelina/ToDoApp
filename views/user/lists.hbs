@@ -38,6 +38,32 @@
                                    placeholder="Dodaj nowe zadanie">
                             <input type="hidden" id="hiddenId" name="label" value={{this.name}}>
                         </div>
+                        <ul class="todos-list">
+                            {{# each todoList}}
+                                <li>
+                                    <span>
+                                        {{this.name}}
+                                    </span>
+                                    <div class="action-container">
+                                        <div class="task-checkbox">
+                                            {{#if this.status }}
+                                                <input type="checkbox" class="task-list-check" value="{{ this._id}}"
+                                                       checked>
+                                            {{else}}
+                                                <input type="checkbox" class="task-list-check" value="{{ this._id}}">
+                                            {{/if}}
+                                        </div>
+
+                                        <div class="pull-right hidden-phone">
+                                            <a href="/user/lists/newtodo/delete/{{ this._id}}">
+                                                <button class="btn btn-danger btn-xs">x</button>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </li>
+                            {{/each}}
+                        </ul>
                     </form>
                     <ul></ul>
                 </div>
