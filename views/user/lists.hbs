@@ -47,30 +47,30 @@
 </div>
 
 
-<!--<div class="todoList">-->
-        <!--{{# each todoList}}-->
-<!--<div class="row">-->
-<!--<ul class="col-md-6">-->
-<!--<li>-->
-<!--<div class="task-checkbox">-->
-        <!--{{#if this.status }}-->
-<!--<input type="checkbox" class="task-list-check" value="{{ this._id}}" checked>-->
-        <!--{{else}}-->
-<!--<input type="checkbox" class="task-list-check" value="{{ this._id}}">-->
-        <!--{{/if}}-->
-<!--</div>-->
-<!--<div class="task-title">-->
-<!--<span>-->
-<!--{{this.name}}-->
-<!--</span>-->
-<!--<div class="pull-right hidden-phone">-->
-<!--<a href="/user/lists/delete/{{ this._id}}">-->
-<!--<button class="btn btn-danger btn-xs">x</button>-->
-<!--</a>-->
-<!--</div>-->
-<!--</div>-->
-<!--</li>-->
-<!--</ul>-->
-<!--</div>-->
-        <!--{{/each}}-->
-<!--</div>-->
+<div class="todoList">
+        {{# each todoList}}
+<div class="row">
+<ul class="col-md-6">
+<li>
+<div class="task-checkbox">
+        {{#if this.status }}
+<input type="checkbox" class="task-list-check" value="{{ this._id}}" checked>
+        {{else}}
+<input type="checkbox" class="task-list-check" value="{{ this._id}}">
+        {{/if}}
+</div>
+<div class="task-title">
+<span>
+{{this.name}}
+</span>
+<div class="pull-right hidden-phone">
+<a href="/user/lists/delete/{{ this._id}}">
+<button class="btn btn-danger btn-xs">x</button>
+</a>
+</div>
+</div>
+</li>
+</ul>
+</div>
+        {{/each}}
+</div>
