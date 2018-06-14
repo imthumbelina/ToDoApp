@@ -106,3 +106,27 @@ a.plus-button {
     color: #00165d;
     text-align: center;
 }
+
+ul.todos-list {
+    padding: 0 10px;
+    list-style-type: none;
+}
+
+ul.todos-list li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 0;
+}
+
+ul.todos-list li .action-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+    width: 100%;
+}
+
+ul.todos-list li .action-container .task-checkbox {
+    margin-right: 10px;
+}

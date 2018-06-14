@@ -62,6 +62,12 @@ router.get('/user/lists/delete/:id', function (req, res) {
     });
 });
 
+router.get('/user/lists/newtodo/delete/:id', function (req, res) {
+    TodoList.remove({_id: req.params.id}, function (err) {
+        res.redirect('/user/lists');
+    });
+});
+
 router.post('/user/lists/update', function (req, res) {
     Todo.where({_id: req.body.id}).update({status: req.body.status}, function (err, doc) {
         if (err) res.json(err);
