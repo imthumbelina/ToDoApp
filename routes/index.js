@@ -5,6 +5,7 @@ var mongodb = require('mongodb');
 
 var Todo = require('../models/todo');
 var TodoList = require('../models/todolist');
+var UserList = require('../models/userList');
 
 router.get("/", function (req, res) {
     res.render('todo/home');
@@ -51,6 +52,17 @@ router.post("/user/lists/newtodolist", function (req, res) {
         else
             console.log("Inserted item");
     });
+
+    var query = {user:req.user};
+    var list = {$push: {lists:newTodoList}};
+
+
+    UserList.findOneAndUpdate(query, list, {upsert:true}, function(err){
+      if (err) return res.send(500, { error: err });
+      console.log('it updated user list');
+    });
+
+
     res.redirect("/user/lists");
 });
 
@@ -101,7 +113,7 @@ router.post('/user/lists/update', function (req, res) {
     });
 });
 
-router.get('/user/signup', function (req) {
+router.get('/user/signup', function (req, res) {
     var messages = req.flash('error');
     res.render('user/signup', {messages: messages, hasErrors: messages.length > 0});
 });
@@ -113,6 +125,15 @@ router.post('/user/signup', passport.authenticate('local.signup', {
 }));
 
 router.get('/user/lists', function (req, res) {
+  var userlist = new UserList({
+    user : req.user,
+  })
+
+  UserList.findOneAndUpdate({user: req.user}, {user : req.user}, {upsert:true},  function (err) {
+    if (err) return res.send(500, { error: err });
+    console.log('it updated list');
+  });
+
     TodoList.find({}, function (err, todoListSchema) {
         if (err) console.log(err);
         else
