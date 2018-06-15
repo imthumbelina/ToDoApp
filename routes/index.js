@@ -134,11 +134,17 @@ router.get('/user/lists', function (req, res) {
     console.log('it updated list');
   });
 
-    TodoList.find({}, function (err, todoListSchema) {
-        if (err) console.log(err);
-        else
-            res.render('user/lists', {todoListSchema: todoListSchema});
-    });
+  UserList.find({ user: req.user },'lists', function (err, users) {
+    if (err) return handleError(err);
+
+    TodoList.find({'_id': { $in: users[0].lists}}, function(err, todoListSchema){
+    if (err) console.log(err);
+          else
+              res.render('user/lists', {todoListSchema: todoListSchema});
+      });
+
+  });
+
 });
 
 router.get('/user/signin', function (req, res) {
