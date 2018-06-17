@@ -119,6 +119,10 @@ ul.todos-list li {
     padding: 10px 0;
 }
 
+ul.todos-list li span {
+    white-space: nowrap;
+}
+
 ul.todos-list li .action-container {
     display: flex;
     flex-direction: row;
@@ -129,4 +133,76 @@ ul.todos-list li .action-container {
 
 ul.todos-list li .action-container .task-checkbox {
     margin-right: 10px;
+}
+
+
+a.mark-button {
+    position: absolute;
+    right: 25px;
+    top: 25px;
+    transform: scale(0.5);
+    cursor: pointer;
+    z-index: 10;
+}
+
+
+.task-checkbox {
+    position: relative;
+}
+
+/*label {*/
+    /*border-radius: 0;*/
+    /*width: 20px;*/
+    /*height: 20px;*/
+    /*cursor: pointer;*/
+    /*position: absolute;*/
+    /*padding: 4px !important;*/
+    /*top: 50%;*/
+    /*left: 0;*/
+    /*border: 1px solid #00165d ;*/
+    /*background-color:  white;*/
+    /*transform: translate(0, -50%);*/
+/*}*/
+
+/*label:after {*/
+    /*content: '';*/
+    /*width: 9px;*/
+    /*height: 5px;*/
+    /*position: absolute;*/
+    /*top: 5px;*/
+    /*left: 4px;*/
+    /*border: 2px solid green;*/
+    /*border-top: none;*/
+    /*border-right: none;*/
+    /*background: transparent;*/
+    /*opacity: 0;*/
+    /*transform: rotate(-45deg);*/
+/*}*/
+/*label:hover::after {*/
+    /*opacity: 0.3;*/
+/*}*/
+
+
+/*input[type=checkbox] {*/
+    /*visibility: hidden;*/
+/*}*/
+
+
+/*input[type=checkbox]:checked + label:after{*/
+    /*opacity: 1;*/
+    /*border-top: none;*/
+    /*border-right: none;*/
+/*}*/
+
+.todo-mark-delete {
+    transform: scale(0.6);
+}
+
+.logout-text {
+    margin-bottom: 80px;
+}
+
+
+.logout-button {
+    width: 40px;
 }

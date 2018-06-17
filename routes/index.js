@@ -7,8 +7,15 @@ var Todo = require('../models/todo');
 var TodoList = require('../models/todolist');
 var UserList = require('../models/userList');
 
+
 router.get("/", function (req, res) {
     res.render('todo/home');
+});
+
+
+router.get('/logout', function(req,res) {
+    console.log("wyloguj");
+    res.render('todo/logout');
 });
 
 router.post("/user/lists/newtodo", function (req, res) {
@@ -126,7 +133,7 @@ router.post('/user/signup', passport.authenticate('local.signup', {
 
 router.get('/user/lists', function (req, res) {
   var userlist = new UserList({
-    user : req.user,
+    user : req.user
   })
 
   UserList.findOneAndUpdate({user: req.user}, {user : req.user}, {upsert:true},  function (err) {
@@ -160,6 +167,9 @@ router.post('/user/signin', passport.authenticate('local.signin', {
     failureRedirect: '/user/signin',
     failureFlash: true
 }));
+
+
+
 
 
 module.exports = router;

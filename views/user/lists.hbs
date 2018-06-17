@@ -1,11 +1,11 @@
-
 <nav class="navbar navbar-expand-lg ">
     <a class="navbar-brand" href="#">PANEL</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
+    <a class="" href="/logout">
+        <img class="logout-button" src="/images/log-out.png" />
+        <!--<button type="button" class="btn btn-primary">WYLOGUJ-->
+        <!--<span class="navbar-toggler-icon"></span>-->
+        <!--</button>-->
+    </a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <form class="col-6 " action="/user/lists/newtodolist" method="POST">
             <div class="input-group">
@@ -16,10 +16,6 @@
 </span>
             </div>
         </form>
-        <!--<form class="form-inline my-2 my-lg-0">-->
-        <!--<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
-        <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
-        <!--</form>-->
     </div>
 </nav>
 
@@ -29,13 +25,13 @@
         {{# each todoListSchema as |tdls id|}}
             <div class="col-md-4">
                 <div class=" todo-list-container">
-                    <a href="/user/lists/todolist/delete/{{tdls._id}}">
-                        <button class="btn btn-danger btn-xs">x</button>
+                    <a class="mark-button" href="/user/lists/todolist/delete/{{tdls._id}}">
+                        <!--<button class="btn btn-danger btn-xs">x</button>-->
+                        <img src="/images/mark-2.svg"/>
                     </a>
                     <h5>
                         {{this.name}}
                     </h5>
-                    <!--<a href="" class="plus-button">+</a>-->
                     <form action="/user/lists/newtodo" method="POST">
                         <div class="input-group">
                             <input type="text" class="new-todo-input" name="item"
@@ -43,64 +39,38 @@
                             <input type="hidden" id="hiddenId" name="label" value="{{this.name}}">
                         </div>
                     </form>
-                        <ul class="todos-list">
-                            {{# each todoList}}
-                                <li>
+                    <ul class="todos-list">
+                        {{# each todoList}}
+                            <li>
                                     <span>
                                         {{this.name}}
                                     </span>
-                                    <div class="action-container">
-                                        <div class="task-checkbox">
-                                            {{#if this.status }}
-                                                <input type="checkbox" class="task-list-check" value="{{ this._id}}"
-                                                       checked>
-                                            {{else}}
-                                                <input type="checkbox" class="task-list-check" value="{{ this._id}}">
-                                            {{/if}}
-                                        </div>
-
-                                        <div class="pull-right hidden-phone">
-                                            <a href="/user/lists/todo/delete/{{tdls._id}}/{{ this._id}}">
-                                                <button class="btn btn-danger btn-xs">x</button>
-                                            </a>
-                                        </div>
+                                <div class="action-container">
+                                    <div class="task-checkbox">
+                                        {{#if this.status }}
+                                            <input type="checkbox" class="task-list-check" value="{{ this._id}}"
+                                                   checked>
+                                            <label></label>
+                                        {{else}}
+                                            <input type="checkbox" class="task-list-check" value="{{ this._id}}">
+                                            <label></label>
+                                        {{/if}}
                                     </div>
 
-                                </li>
-                            {{/each}}
-                        </ul>
+                                    <div class="pull-right hidden-phone">
+                                        <a href="/user/lists/todo/delete/{{tdls._id}}/{{ this._id}}">
+                                            <img class="todo-mark-delete" src="/images/mark.svg"/>
+                                            <!--<button class="btn btn-danger btn-xs">x</button>-->
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </li>
+                        {{/each}}
+                    </ul>
                     <ul></ul>
                 </div>
             </div>
         {{/each}}
     </div>
 </div>
-
-
-<!--<div class="todoList">-->
-        <!--{{# each todoList}}-->
-<!--<div class="row">-->
-<!--<ul class="col-md-6">-->
-<!--<li>-->
-<!--<div class="task-checkbox">-->
-        <!--{{#if this.status }}-->
-<!--<input type="checkbox" class="task-list-check" value="{{ this._id}}" checked>-->
-        <!--{{else}}-->
-<!--<input type="checkbox" class="task-list-check" value="{{ this._id}}">-->
-        <!--{{/if}}-->
-<!--</div>-->
-<!--<div class="task-title">-->
-<!--<span>-->
-<!--{{this.name}}-->
-<!--</span>-->
-<!--<div class="pull-right hidden-phone">-->
-<!--<a href="/user/lists/delete/{{ this._id}}">-->
-<!--<button class="btn btn-danger btn-xs">x</button>-->
-<!--</a>-->
-<!--</div>-->
-<!--</div>-->
-<!--</li>-->
-<!--</ul>-->
-<!--</div>-->
-        <!--{{/each}}-->
-<!--</div>-->
