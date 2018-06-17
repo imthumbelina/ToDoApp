@@ -34,20 +34,21 @@
         if(url.includes('lists')){
             $('body').addClass('flex');
         }
+        else {
+
+        }
 
         $('.task-list-check').click(function () {
             var status = true;
 
             if ($(this).is(":checked")) {
-                $(this).parent().parent().addClass('task-done');
+                $(this).parent().parent().addClass('task-done')
             } else {
                 $(this).parent().parent().removeClass('task-done');
                 status = false;
             }
-            $.post("user/lists/update", {id: $(this).val(), status: status}, function (data) {
-                console.log(data);
-                return true;
-            });
+
+            $.post('lists/update', {id: $(this).val(), status: status, parent_id: $(this).attr("name")});
         });
     });
 

@@ -13,34 +13,31 @@ router.get("/", function (req, res) {
 });
 
 
-router.get('/logout', function(req,res) {
-    console.log("wyloguj");
+router.get('/logout', function (req, res) {
     res.render('todo/logout');
 });
 
 router.post("/user/lists/newtodo", function (req, res) {
-    console.log("item submitted");
     var newItem = new Todo(
         {
             name: req.body.item,
             status: false
         });
-  Todo.create(newItem, function (err) {
+    Todo.create(newItem, function (err) {
         if (err) console.log(err);
         else
             console.log("Inserted item");
     });
-      var listName = req.body.label;
+    var listName = req.body.label;
 
-      console.log('inserted into', listName);
-      var query = {'name':listName};
-      var todolist = {$push: {todoList:newItem}};
+    console.log('inserted into', listName);
+    var query = {'name': listName};
+    var todolist = {$push: {todoList: newItem}};
 
 
-      TodoList.findOneAndUpdate(query, todolist, {upsert:true}, function(err){
-        if (err) return res.send(500, { error: err });
-        console.log('it worked');
-      });
+    TodoList.findOneAndUpdate(query, todolist, {upsert: true}, function (err) {
+        if (err) return res.send(500, {error: err});
+    });
 
     res.redirect("/user/lists");
 
@@ -60,13 +57,12 @@ router.post("/user/lists/newtodolist", function (req, res) {
             console.log("Inserted item");
     });
 
-    var query = {user:req.user};
-    var list = {$push: {lists:newTodoList}};
+    var query = {user: req.user};
+    var list = {$push: {lists: newTodoList}};
 
 
-    UserList.findOneAndUpdate(query, list, {upsert:true}, function(err){
-      if (err) return res.send(500, { error: err });
-      console.log('it updated user list');
+    UserList.findOneAndUpdate(query, list, {upsert: true}, function (err) {
+        if (err) return res.send(500, {error: err});
     });
 
 
@@ -81,7 +77,6 @@ router.get('/user/lists/delete/:id', function (req, res) {
 });
 
 
-
 router.get('/user/lists/todolist/delete/:id', function (req, res) {
     TodoList.deleteOne({_id: new mongodb.ObjectID(req.params.id)}, function () {
         res.redirect('/user/lists');
@@ -89,35 +84,35 @@ router.get('/user/lists/todolist/delete/:id', function (req, res) {
 });
 
 
-
-
 router.get('/user/lists/todo/delete/:todoListId/:id', function (req, res) {
     console.log("dadasd");
     Todo.deleteOne({_id: new mongodb.ObjectID(req.params.id)}, function () {
         console.log(req.params.id);
         console.log(req.params.todoListId);
-        // res.redirect('/user/lists');
 
     });
     TodoList.update(
         {_id: new mongodb.ObjectID(req.params.todoListId)},
         {$pull: {"todoList": {_id: new mongodb.ObjectID(req.params.id)}}},
         function () {
-            console.log(req.params.todoListId);
-            console.log(req.params.id);
-            console.log("ddddddddddd");
             res.redirect('/user/lists');
         });
-    // TodoList.where({_id: new mongodb.ObjectID(req.params.todoListId)}).remove();
-    //db.todolists.update({"_id": ObjectId("5b22c3d7c1841d22fb7fdaf0")}, {$pull: {"todoList":{"name":"maso"}}})
-
 });
 
 router.post('/user/lists/update', function (req, res) {
-    Todo.where({_id: req.body.id}).update({status: req.body.status}, function (err) {
-        if (err) res.json(err);
-        else res.send(200);
-    });
+    TodoList.findOneAndUpdate(
+        {"_id": req.body.parent_id, "todoList._id": req.body.id},
+        {
+            "$set": {
+                "todoList.$.status": req.body.status
+            }
+        },
+
+        function (err, doc) {
+            console.log(err);
+        }
+    )
+
 });
 
 router.get('/user/signup', function (req, res) {
@@ -132,28 +127,28 @@ router.post('/user/signup', passport.authenticate('local.signup', {
 }));
 
 router.get('/user/lists', function (req, res) {
-  var userlist = new UserList({
-    user : req.user
-  })
+    var userlist = new UserList({
+        user: req.user
+    });
 
-  UserList.findOneAndUpdate({user: req.user}, {user : req.user}, {upsert:true},  function (err) {
-    if (err) return res.send(500, { error: err });
-    console.log('it updated list');
-  });
+    UserList.findOneAndUpdate({user: req.user}, {user: req.user}, {upsert: true}, function (err) {
+        if (err) return res.send(500, {error: err});
+        console.log('it updated list');
+    });
 
-  UserList.find({ user: req.user },'lists', function (err, users) {
-    if (err) return handleError(err);
-    if (users === undefined || users.length == 0){
-        res.render('user/lists')
+    UserList.find({user: req.user}, 'lists', function (err, users) {
+        if (err) return handleError(err);
+        if (users === undefined || users.length == 0) {
+            res.render('user/lists')
 
-    }else{
-      TodoList.find({'_id': { $in: users[0].lists}}, function(err, todoListSchema){
-      if (err) console.log(err);
-            else
-                res.render('user/lists', {todoListSchema: todoListSchema});
-        });
-    }
-  });
+        } else {
+            TodoList.find({'_id': {$in: users[0].lists}}, function (err, todoListSchema) {
+                if (err) console.log(err);
+                else
+                    res.render('user/lists', {todoListSchema: todoListSchema});
+            });
+        }
+    });
 
 });
 
@@ -167,9 +162,6 @@ router.post('/user/signin', passport.authenticate('local.signin', {
     failureRedirect: '/user/signin',
     failureFlash: true
 }));
-
-
-
 
 
 module.exports = router;
